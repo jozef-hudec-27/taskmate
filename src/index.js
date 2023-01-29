@@ -4,16 +4,11 @@ import * as dateFns from 'date-fns';
 class Todo {
   isFinished = false
 
-  constructor(title, project, description = '', dueDate = new Date(), priority = 1) {
+  constructor(title, description = '', dueDate = new Date(), priority = 1) {
     this.title = title
-    this.setProjectTo(project)
     this.description = description
     this.dueDate = dueDate
     this.priority = priority
-  }
-
-  timeLeft() {
-    return dateFns.formatDistanceToNow(this.dueDate)
   }
 
   toggleFinished() {
@@ -21,16 +16,15 @@ class Todo {
   }
 
   delete() {
-    this.project.removeTodo(this)
-
     for (let property in this) {
       delete this[property]
     }
   }
+}
 
-  setProjectTo(project) {
-    this.project = project
-    project.addTodo(this)
+class TodoService {
+  static timeLeftFor(todo) {
+    return dateFns.formatDistanceToNow(todo.dueDate)
   }
 }
 
@@ -55,27 +49,31 @@ class Project {
   }
 
   delete() {
-    if (this.isDefault) {
-      return
-    }
-
-    this.todos.forEach(todo => {
-      todo.setProjectTo(defaultProject)
-    })
-
-    for (let property in this) {
-      delete this[property]
+    if (!this.isDefault) {
+      for (let property in this) {
+        delete this[property]
+      }
     }
   }
 }
 
-let defaultProject = new Project('default')
-defaultProject.isDefault = true
+class TodoProjectAssociation {
+  static todoToProject = {}
+
+  constructor(todo, project) {
+    this.todo = todo
+    this.project = project
+    TodoProjectAssociation.todoToProject[todo] = project
+  }
+
+  removeAssociation() {
+    this.project.removeTodo(this.todo)
+    delete TodoProjectAssociation.todoToProject[this.todo]
+    this.todo = undefined
+    this.project = undefined
+  }
+}
 
 let secondProject = new Project('second')
-
-let todo = new Todo('good todo', secondProject)
-
-secondProject.delete()
-
-console.log(todo, defaultProject, secondProject)
+let todo = new Todo('good todo')
+new TodoProjectAssociation(todo, secondProject)
