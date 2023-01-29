@@ -1,0 +1,49 @@
+// FLEXBOX
+
+.flexbox {
+    display: flex;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.flex-center {
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-align-center {
+    align-items: center;
+}
+
+@for $i from 1 through 50 {
+    .gap-#{$i} { gap: #{$i}px; }
+}
+
+
+// PADDING
+
+@for $i from 0 through 20 {
+    .p-#{$i} { padding: #{$i}px; }
+    .px-#{$i} { padding: 0 #{$i}px; }
+    .py-#{$i} { padding: #{$i}px 0; }
+    .pl-#{$i} { padding-left: #{$i}px; }
+    .pr-#{$i} { padding-right: #{$i}px; }
+    .pt-#{$i} { padding-top: #{$i}px; }
+}
+
+
+// MARGIN
+
+@for $i from 0 through 50 {
+    .m-#{$i} { margin: #{$i}px; }
+    .ml-#{$i} { margin-left: #{$i}px; }
+    .mr-#{$i} { margin-right: #{$i}px; }
+    .mt-#{$i} { margin-top: #{$i}px; }
+    .mb-#{$i} { margin-bottom: #{$i}px; }
+}
+
+.ml-auto {
+    margin-left: auto;
+}
