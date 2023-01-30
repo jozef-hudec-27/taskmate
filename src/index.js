@@ -1,9 +1,5 @@
 import './assets/styles/style.scss'
 
-import { Todo, TodoService } from './todo'
-import { Project, DefaultProject, TodoProjectAssociation } from './project'
+import paintTasksPage from './pages/tasks'
 
-import Dom from './dom_controller'
-
-
-const defaultProject = new DefaultProject('')
+paintTasksPage()
