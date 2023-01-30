@@ -1,5 +1,70 @@
 @use "./utilities";
 
+@font-face {
+    font-family: 'reenie_beanie';
+    src: url('../fonts/reeniebeanie-regular-webfont.woff2') format('woff2'),
+         url('../fonts/reeniebeanie-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
     margin: 0;
+    background-color: rgb(210,187,147, 0.9);
+}
+
+h1, h2, h3, h4, h5, h6, p, a {
+    margin: 0;
+    font-weight: normal;
+}
+
+h1, h2, h3 {
+    text-decoration: wavy underline rgb(0,238,2);
+    text-decoration-skip-ink: none;
+}
+
+::selection {
+    background-color: rgb(253,250,48);
+    text-decoration-color: inherit;
+}
+
+#paper {
+    max-width: 600px;
+    position: relative;
+    margin: 20px auto;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: white;
+    box-shadow: 0px 0px 5px 0px rgb(136, 136, 136);
+
+    &::before {
+        content: '';
+        width: 2px;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 40px;
+        background-color: rgba(255,0,0,0.6);
+    }
+
+    #pattern {
+        height: 100%;
+        background-image: repeating-linear-gradient(white 0px, white 24px, teal 25px);
+
+        #content {
+            padding-top: 6px;
+            padding-left: 56px;
+            padding-right: 16px;
+            line-height: 25px;
+            font-family: reenie_beanie, cursive;
+            font-size: 19px;
+            letter-spacing: 1px;
+            word-spacing: 5px;
+
+            h1 {
+                margin-left: 50%;
+                transform: translateX(-25%);
+            }
+        }
+    }
 }
