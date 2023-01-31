@@ -23,6 +23,27 @@ h1, h2, h3 {
     text-decoration-skip-ink: none;
 }
 
+button {
+    @extend %reset-appearance;
+
+    cursor: pointer;
+}
+
+input:not([type="radio"]), textarea {
+    @extend %reset-appearance;
+
+    font-family: reenie_beanie; 
+    font-size: 1.3rem;
+}
+
+fieldset {
+    @extend %reset-appearance;
+}
+
+label, legend {
+    font-weight: 600;
+}
+
 ::selection {
     background-color: rgb(253,250,48);
     text-decoration-color: inherit;
@@ -47,6 +68,16 @@ h1, h2, h3 {
         background-color: rgba(255,0,0,0.6);
     }
 
+    .new-todo-btn {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+
+        &:hover {
+            transform: scale(1.2);
+        }
+    }
+
     #pattern {
         height: 100%;
         background-image: repeating-linear-gradient(white 0px, white 24px, teal 25px);
@@ -65,6 +96,49 @@ h1, h2, h3 {
                 margin-left: 50%;
                 transform: translateX(-25%);
             }
+        }
+    }
+}
+
+.add-todo-form {
+    input[type="text"], textarea {
+        outline-color: teal;
+        outline-width: 1px;
+        padding: 1px 4px;
+        min-width: 75%;
+        max-width: 75%;
+    }
+
+    textarea {
+        min-height: 150px;
+    }
+
+    input[type="text"]:focus, textarea:focus {
+        background-color: white;
+    }
+
+    input[type="radio"] {
+        &#Low {
+            accent-color: rgb(0, 238, 2);
+        }
+
+        &#Medium {
+            accent-color: rgb(253, 250, 48);
+        }
+
+        &#High {
+            accent-color: rgb(255, 101, 101);
+        }
+    }
+
+    button {
+        font-family: reenie_beanie;
+        font-size: 1.3rem;
+        width: fit-content;
+        margin: 0 auto;
+
+        &:hover {
+            transform: scale(1.2);
         }
     }
 }
