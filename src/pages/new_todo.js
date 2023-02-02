@@ -1,6 +1,9 @@
 import Dom from '../dom_controller'
+import { TodoProjectAssociation } from '../project'
+import { Todo } from '../todo'
+import paintTasksPage from './tasks'
 
-export default function() {
+export default function(existingTodoList = [], existingProjectList = []) {
   const content = document.getElementById('content')
 
   const heading = Dom.newElement('h1', [], '', 'Add Todo')
@@ -12,7 +15,6 @@ export default function() {
   todoTitleLabel.appendChild(todoTitleInput)
   
   const todoDescriptionArea = Dom.newElement('textarea')
-  todoDescriptionArea.required = true
   const todoDescriptionLabel = Dom.newElement('label', ['flexbox', 'flex-column'], '', 'Description:')
   todoDescriptionLabel.appendChild(todoDescriptionArea)
 
@@ -40,11 +42,43 @@ export default function() {
   todoDueDateLabel.appendChild(todoDueDateInput)
 
   const submitBtn = Dom.newElement('button', [], '', 'Add')
+  todoForm.addEventListener('submit', e => {
+    e.preventDefault()
+
+    const title = todoTitleInput.value
+    const description = todoDescriptionArea.value
+    const date = todoDueDateInput.value
+    let priority;
+
+    todoPriorities.forEach(p => {
+      if (document.getElementById(p)?.checked) {
+        priority = p
+      }
+    })
+
+    let newTodo = new Todo(title, description, new Date(date), { Low: 1, Medium: 2, High: 3 }[priority])
+    existingTodoList.push(newTodo)
+    
+    let defaultProject = existingProjectList[0]
+    new TodoProjectAssociation(newTodo, defaultProject)
+
+    document.getElementById('paper').remove()
+    paintTasksPage(existingTodoList, existingProjectList)
+  })
+
+  const backBtn = Dom.newElement('button', ['new-page-btn'])
+  backBtn.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M10 22 0 12 10 2l1.775 1.775L3.55 12l8.225 8.225Z"/>
+    </svg>`
+  backBtn.addEventListener('click', () => {
+    document.getElementById('paper').remove()
+    paintTasksPage(existingTodoList, existingProjectList)
+  })
+  document.getElementById('paper').appendChild(backBtn)
   
   const emptyLine = Dom.newElement('li')
   emptyLine.style.color = 'white'
   
   Dom.addChildrenTo(todoForm, [todoTitleLabel, todoDescriptionLabel, todoDueDateLabel, submitBtn])
-  
   Dom.addChildrenTo(content, [heading, emptyLine, todoForm])
 }

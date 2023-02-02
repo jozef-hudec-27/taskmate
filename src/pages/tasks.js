@@ -1,23 +1,28 @@
 import Dom from '../dom_controller'
 import paintNewTodoPage from './new_todo'
 
-export default function() {
+export default function(todoList = [], projectList = []) {
   const paper = Dom.newElement('div', [], 'paper')
   const pattern = Dom.newElement('div', [], 'pattern')
   const content = Dom.newElement('div', [], 'content')
+
   const heading = Dom.newElement('h1', ['project-name'], '', 'My Tasks')
-  const task1 = Dom.newElement('li', ['task'], '', 'Task 1: Clean my room'),
-        task2 = Dom.newElement('li', ['task'], '', 'Task 2: Take out the rubbish'),
-        task3 = Dom.newElement('li', ['task'], '', 'Task 3: Buy milk')
+
+  const todoElements = []
+  todoList.forEach((todo, i) => {
+    let todoElement = Dom.newElement('li', ['task'], '', `Task ${i+1}: ${todo.title}`)
+    todoElements.push(todoElement)
+  })
+
   const emptyLine = Dom.newElement('li')
   emptyLine.style.color = 'white'
   
   document.body.appendChild(paper)
   paper.appendChild(pattern)
   pattern.appendChild(content)
-  Dom.addChildrenTo(content, [heading, emptyLine, task1, task2, task3])
+  Dom.addChildrenTo(content, [heading, emptyLine].concat(todoElements))
 
-  const newTodoBtn = Dom.newElement('button', ['new-todo-btn'], '')
+  const newTodoBtn = Dom.newElement('button', ['new-page-btn'], '')
   newTodoBtn.innerHTML = `
   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
     <g id="surface1">
@@ -28,7 +33,8 @@ export default function() {
     content.remove()
     newTodoBtn.remove()
     pattern.appendChild(Dom.newElement('div', [], 'content'))
-    paintNewTodoPage()
+    paintNewTodoPage(todoList, projectList)
   })
+  
   paper.appendChild(newTodoBtn)
 }
