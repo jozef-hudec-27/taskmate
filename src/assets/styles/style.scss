@@ -142,3 +142,15 @@ label, legend {
         }
     }
 }
+
+.todo.priority-1::marker {
+    color: rgb(0, 238, 2);
+}
+
+.todo.priority-2::marker {
+    color: rgb(253, 250, 48);
+}
+
+.todo.priority-3::marker {
+    color: rgb(255, 101, 101);
+}

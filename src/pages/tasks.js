@@ -10,7 +10,8 @@ export default function(todoList = [], projectList = []) {
 
   const todoElements = []
   todoList.forEach((todo, i) => {
-    let todoElement = Dom.newElement('li', ['task'], '', `Task ${i+1}: ${todo.title}`)
+    let todoElement = Dom.newElement('li', ['todo', `priority-${todo.priority}`], '', `Task ${i+1}: ${todo.title}`)
+    todoElement.setAttribute('aria-label', `${{ 1: 'Low', 2: 'Medium', 3: 'High'}[todo.priority]} priority todo`)
     todoElements.push(todoElement)
   })
 
