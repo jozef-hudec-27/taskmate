@@ -2,6 +2,8 @@ import './assets/styles/style.scss'
 import { Todo } from './todo'
 import { Project, DefaultProject, TodoProjectAssociation } from './project'
 import paintTasksPage from './pages/todos'
+import Favicon from './assets/images/favicon-32x32.png'
+import Dom from './dom_controller'
 
 const defaultProject = new DefaultProject('My Todos')
 const secondProject = new Project('Second')
@@ -12,6 +14,14 @@ todoTitles.forEach(title => {
   new TodoProjectAssociation(todo, defaultProject)
 })
 
-const projects = [defaultProject, secondProject]
+const secondProjectTodo = new Todo('Mow the lawn', 'Lorem Ipsum dolor sit amet.', new Date(), 3)
+secondProjectTodo.toggleFinished()
+new TodoProjectAssociation(secondProjectTodo, secondProject)
 
-paintTasksPage(projects)
+paintTasksPage([defaultProject, secondProject])
+
+const favicon = Dom.newElement('link')
+favicon.setAttribute('rel', 'icon')
+favicon.setAttribute('type', 'image/x-icon')
+favicon.setAttribute('href', Favicon)
+document.head.appendChild(favicon)
