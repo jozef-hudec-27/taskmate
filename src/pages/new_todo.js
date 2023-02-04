@@ -3,7 +3,7 @@ import { TodoProjectAssociation } from '../project'
 import { Todo } from '../todo'
 import paintTasksPage, { backBtn } from './todos'
 
-export default function(existingTodoList = [], existingProjectList = []) {
+export default function(existingProjectList = [], currentProjectIdx = 0) {
   const content = document.getElementById('content')
 
   const heading = Dom.newElement('h1', [], '', 'Add Todo')
@@ -57,17 +57,13 @@ export default function(existingTodoList = [], existingProjectList = []) {
     })
 
     let newTodo = new Todo(title, description, new Date(date), { Low: 1, Medium: 2, High: 3 }[priority])
-    
-    let defaultProject = existingProjectList[0]
-    let newTodoProjectAssociation = new TodoProjectAssociation(newTodo, defaultProject)
-
-    existingTodoList.push({ todo: newTodo, association: newTodoProjectAssociation })
+    new TodoProjectAssociation(newTodo, existingProjectList[currentProjectIdx])
 
     document.getElementById('paper').remove()
-    paintTasksPage(existingTodoList, existingProjectList)
+    paintTasksPage(existingProjectList)
   })
 
-  document.getElementById('paper').appendChild(backBtn(existingTodoList, existingProjectList))
+  document.getElementById('paper').appendChild(backBtn(existingProjectList, currentProjectIdx))
   
   Dom.addChildrenTo(todoForm, [todoTitleLabel, todoDescriptionLabel, todoDueDateLabel, submitBtn])
   Dom.addChildrenTo(content, [heading, Dom.emptyLine(), todoForm])

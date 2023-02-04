@@ -1,18 +1,17 @@
 import './assets/styles/style.scss'
 import { Todo } from './todo'
-import { Project, TodoProjectAssociation } from './project'
+import { Project, DefaultProject, TodoProjectAssociation } from './project'
 import paintTasksPage from './pages/todos'
 
-const defaultProject = new Project('My Todos')
+const defaultProject = new DefaultProject('My Todos')
+const secondProject = new Project('Second')
 
-const todos = []
 const todoTitles = ['Buy Milk', 'Tidy my room', 'Visit grandma']
 todoTitles.forEach(title => {
   let todo = new Todo(title, title + ' description')
-  let todoProjectAssociation = new TodoProjectAssociation(todo, defaultProject)
-  todos.push({ todo, association: todoProjectAssociation })
+  new TodoProjectAssociation(todo, defaultProject)
 })
 
-const projects = [defaultProject]
+const projects = [defaultProject, secondProject]
 
-paintTasksPage(todos, projects)
+paintTasksPage(projects)

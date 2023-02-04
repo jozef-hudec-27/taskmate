@@ -1,16 +1,19 @@
 import Dom from '../dom_controller'
 import paintNewTodoPage from './new_todo'
 import paintTodoDetailsPage from './todo'
+import { ProjectService } from '../project'
 
-export default function paintTasksPage(todoList = [], projectList = []) {
+export default function paintTasksPage(projectList = [], currentProjectIdx = 0) {
+  const todoObjs = ProjectService.todoObjsFor(projectList[currentProjectIdx])
+
   const paper = Dom.newElement('div', [], 'paper')
   const pattern = Dom.newElement('div', [], 'pattern')
   const content = Dom.newElement('div', [], 'content')
 
-  const heading = Dom.newElement('h1', ['project-name'], '', 'My Tasks')
+  const heading = Dom.newElement('h1', ['project-name'], '', projectList[currentProjectIdx].name)
 
   const todoElements = []
-  todoList.forEach(todoObj => {
+  todoObjs.forEach(todoObj => {
     let todo = todoObj.todo
 
     let wrapper = Dom.newElement('div', ['flexbox', 'gap-8'])
@@ -22,7 +25,7 @@ export default function paintTasksPage(todoList = [], projectList = []) {
       e.preventDefault()
 
       paper.remove()
-      paintTodoDetailsPage(todoObj, todoList, projectList)
+      paintTodoDetailsPage(todoObj, projectList, currentProjectIdx)
     })
 
     let todoFinishedBtn = Dom.newElement('button')
@@ -61,20 +64,20 @@ export default function paintTasksPage(todoList = [], projectList = []) {
     content.remove()
     newTodoBtn.remove()
     pattern.appendChild(Dom.newElement('div', [], 'content'))
-    paintNewTodoPage(todoList, projectList)
+    paintNewTodoPage(projectList, currentProjectIdx)
   })
   
   paper.appendChild(newTodoBtn)
 }
 
-export function backBtn(todos, projects) {
+export function backBtn(projects, currentProjectIdx) {
   const btn = Dom.newElement('button', ['new-page-btn'])
   btn.innerHTML = `
     <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M10 22 0 12 10 2l1.775 1.775L3.55 12l8.225 8.225Z"/>
     </svg>`
   btn.addEventListener('click', () => {
     document.getElementById('paper').remove()
-    paintTasksPage(todos, projects)
+    paintTasksPage(projects, currentProjectIdx)
   })
 
   return btn

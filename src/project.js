@@ -29,20 +29,42 @@ export class Project {
 
 export class DefaultProject extends Project {
   isDefault = true
+
+  moveTodosFrom(nonDefaultProject) {
+    nonDefaultProject.todos.forEach(todo => this.addTodo(todo))
+  }
+}
+
+export class ProjectService {
+  static todoObjsFor(project) {
+    const todoObjs = []
+
+    project.todos.forEach(todo => {
+      todoObjs.push({ todo, association: TodoProjectAssociation.todoToAssociation[todo] })
+    })
+
+    return todoObjs
+  }
 }
 
 export class TodoProjectAssociation {
   static todoToProject = {}
+  static todoToAssociation = {}
 
   constructor(todo, project) {
     this.todo = todo
     this.project = project
+    
+    this.project.addTodo(todo)
+
     TodoProjectAssociation.todoToProject[todo] = project
+    TodoProjectAssociation.todoToAssociation[todo] = this
   }
 
   removeAssociation() {
     this.project.removeTodo(this.todo)
     delete TodoProjectAssociation.todoToProject[this.todo]
+    delete TodoProjectAssociation.todoToAssociation[this.todo]
     this.todo = undefined
     this.project = undefined
   }

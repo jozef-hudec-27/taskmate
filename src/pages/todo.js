@@ -3,7 +3,7 @@ import paintTasksPage, { backBtn } from './todos'
 import * as dateFns from 'date-fns';
 import { TodoService } from '../todo';
 
-export default function(todoObj, existingTodoList, existingProjectList) {
+export default function(todoObj, existingProjectList, currentProjectIdx) {
   const todo = todoObj.todo, projectAssociation = todoObj.association
 
   const paper = Dom.newElement('div', [], 'paper')
@@ -25,27 +25,20 @@ export default function(todoObj, existingTodoList, existingProjectList) {
 
     let newTodoDesc = todoDescArea.value
     todo.description = newTodoDesc
-
-    existingTodoList = existingTodoList.map(obj => {
-      if (obj.todo == todo) obj.todo = todo
-      
-      return obj
-    })
   })
 
   const deleteBtn = Dom.newElement('button', [], '', 'Delete')
   deleteBtn.addEventListener('click', e => {
     e.preventDefault()
 
-    existingTodoList = existingTodoList.filter(obj => obj.todo != todo)
     projectAssociation.removeAssociation()
     todo.delete()
 
     paper.remove()
-    paintTasksPage(existingTodoList, existingProjectList)
+    paintTasksPage(existingProjectList)
   })
 
-  paper.appendChild(backBtn(existingTodoList, existingProjectList))
+  paper.appendChild(backBtn(existingProjectList, currentProjectIdx))
 
   Dom.addChildrenTo(todoForm, [todoDescArea, Dom.newElement('br'), submitBtn, Dom.newElement('br'), deleteBtn])
 
