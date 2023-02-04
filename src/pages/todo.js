@@ -13,7 +13,7 @@ export default function(todoObj, existingTodoList, existingProjectList) {
   const ddw = new Date() > todo.dueDate ? 'ago' : 'left'
   const todoDueDateHeading = Dom.newElement('h5', [], '', `Due date: ${dateFns.format(todo.dueDate, 'MMMM d yyyy')} (${TodoService.timeLeftFor(todo)} ${ddw})`)
 
-  const heading = Dom.newElement('h1', ['todo-title'], '', `${todo.title}`)
+  const heading = Dom.newElement('h1', ['todo-title', todo.isFinished ? 'finished' : 'unfinished'], '', `${todo.title}`)
 
   const todoForm = Dom.newElement('form', ['add-todo-form'])
   

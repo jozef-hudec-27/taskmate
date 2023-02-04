@@ -21,6 +21,10 @@ h1, h2, h3, h4, h5, h6, p, a {
 h1, h2, h3 {
     text-decoration: wavy underline rgb(0,238,2);
     text-decoration-skip-ink: none;
+
+    &.finished {
+        text-decoration: line-through rgb(0,238,2);
+    }
 }
 
 button {
@@ -146,6 +150,10 @@ label, legend {
 .todo {
     a {
         @extend %reset-appearance;
+    }
+
+    &.finished {
+        text-decoration: line-through;
     }
 }
 

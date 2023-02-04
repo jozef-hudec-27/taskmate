@@ -11,16 +11,38 @@ export default function paintTasksPage(todoList = [], projectList = []) {
 
   const todoElements = []
   todoList.forEach(todoObj => {
-    let todoElement = Dom.newElement('li', ['todo', `priority-${todoObj.todo.priority}`], '')
-    todoElement.innerHTML = `<a href="">${todoObj.todo.title}</a>`
-    todoElement.setAttribute('aria-label', `${{ 1: 'Low', 2: 'Medium', 3: 'High'}[todoObj.todo.priority]} priority todo`)
+    let todo = todoObj.todo
+
+    let wrapper = Dom.newElement('div', ['flexbox', 'gap-8'])
+
+    let todoElement = Dom.newElement('li', ['todo', `priority-${todo.priority}`, todo.isFinished ? 'finished' : 'unfinished'], '')
+    todoElement.innerHTML = `<a href="">${todo.title}</a>`
+    todoElement.setAttribute('aria-label', `${{ 1: 'Low', 2: 'Medium', 3: 'High'}[todo.priority]} priority todo`)
     todoElement.firstChild.addEventListener('click', e => {
       e.preventDefault()
 
       paper.remove()
       paintTodoDetailsPage(todoObj, todoList, projectList)
     })
-    todoElements.push(todoElement)
+
+    let todoFinishedBtn = Dom.newElement('button')
+    todoFinishedBtn.innerHTML = todo.isFinished ? `
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.062 15 5 13.938 8.938 10 5 6.062 6.062 5 10 8.938 13.938 5 15 6.062 11.062 10 15 13.938 13.938 15 10 11.062Z"/></svg>
+    ` : `<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m8.229 14.062-3.521-3.541L5.75 9.479l2.479 2.459 6.021-6L15.292 7Z"/></svg>`
+    todoFinishedBtn.setAttribute('aria-label', todo.isFinished ? 'Unmark todo finished' : 'Mark todo finished')
+    todoFinishedBtn.addEventListener('click', () => {
+      todo.toggleFinished()
+
+      todo.isFinished ? todoElement.classList.add('finished') : todoElement.classList.remove('finished')
+      todoFinishedBtn.innerHTML = todo.isFinished ? `
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.062 15 5 13.938 8.938 10 5 6.062 6.062 5 10 8.938 13.938 5 15 6.062 11.062 10 15 13.938 13.938 15 10 11.062Z"/></svg>
+      ` : `<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m8.229 14.062-3.521-3.541L5.75 9.479l2.479 2.459 6.021-6L15.292 7Z"/></svg>`
+      todoFinishedBtn.setAttribute('aria-label', todo.isFinished ? 'Unmark todo finished' : 'Mark todo finished')
+    })
+
+    Dom.addChildrenTo(wrapper, [todoElement, todoFinishedBtn])
+
+    todoElements.push(wrapper)
   })
 
   document.body.appendChild(paper)

@@ -12,7 +12,7 @@ export class Todo {
   }
 
   toggleFinished() {
-    this.isFinished = !this.finished
+    this.isFinished = !this.isFinished
   }
 
   delete() {
