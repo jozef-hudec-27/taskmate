@@ -9,6 +9,7 @@ export class Todo {
     this.description = description
     this.dueDate = dueDate
     this.priority = priority
+    this.id = TodoService.randomId()
   }
 
   toggleFinished() {
@@ -25,5 +26,9 @@ export class Todo {
 export class TodoService {
   static timeLeftFor(todo) {
     return dateFns.formatDistanceToNow(todo.dueDate)
+  }
+
+  static randomId() {
+    return Math.floor(Math.random() * 999_999_999) + 1
   }
 }

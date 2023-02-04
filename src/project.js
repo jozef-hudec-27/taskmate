@@ -40,7 +40,7 @@ export class ProjectService {
     const todoObjs = []
 
     project.todos.forEach(todo => {
-      todoObjs.push({ todo, association: TodoProjectAssociation.todoToAssociation[todo] })
+      todoObjs.push({ todo, association: TodoProjectAssociation.todoToAssociation[todo.id.toString()] })
     })
 
     return todoObjs
@@ -57,14 +57,14 @@ export class TodoProjectAssociation {
     
     this.project.addTodo(todo)
 
-    TodoProjectAssociation.todoToProject[todo] = project
-    TodoProjectAssociation.todoToAssociation[todo] = this
+    TodoProjectAssociation.todoToProject[todo.id.toString()] = project
+    TodoProjectAssociation.todoToAssociation[todo.id.toString()] = this
   }
 
   removeAssociation() {
-    this.project.removeTodo(this.todo)
-    delete TodoProjectAssociation.todoToProject[this.todo]
-    delete TodoProjectAssociation.todoToAssociation[this.todo]
+    this.project?.removeTodo(this.todo)
+    delete TodoProjectAssociation.todoToProject[this.todo.title]
+    delete TodoProjectAssociation.todoToAssociation[this.todo.title]
     this.todo = undefined
     this.project = undefined
   }

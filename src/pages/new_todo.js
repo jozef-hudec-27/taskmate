@@ -60,7 +60,7 @@ export default function(existingProjectList = [], currentProjectIdx = 0) {
     new TodoProjectAssociation(newTodo, existingProjectList[currentProjectIdx])
 
     document.getElementById('paper').remove()
-    paintTasksPage(existingProjectList)
+    paintTasksPage(existingProjectList, currentProjectIdx)
   })
 
   document.getElementById('paper').appendChild(backBtn(existingProjectList, currentProjectIdx))

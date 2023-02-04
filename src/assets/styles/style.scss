@@ -33,6 +33,10 @@ button {
     cursor: pointer;
 }
 
+select {
+    @extend %reset-appearance;
+}
+
 input:not([type="radio"]), textarea {
     @extend %reset-appearance;
 
@@ -167,4 +171,23 @@ label, legend {
 
 .todo.priority-3::marker {
     color: rgb(255, 101, 101);
+}
+
+.select-project-dropdown-wrapper {
+    position: absolute;
+    top: 8px;
+    left: 56px;
+
+    .select-project-dropdown {
+        border-radius: 8px;
+        padding: 4px 12px;
+        font-family: reenie_beanie;
+        font-size: 1.2rem;
+        padding-right: 30px;
+        z-index: 2;
+    }
+    
+    .select-project-expand-arrow {
+        margin-left: -30px;
+    }
 }

@@ -1,4 +1,4 @@
-import Dom from '../dom_controller'
+  import Dom from '../dom_controller'
 import paintNewTodoPage from './new_todo'
 import paintTodoDetailsPage from './todo'
 import { ProjectService } from '../project'
@@ -9,6 +9,27 @@ export default function paintTasksPage(projectList = [], currentProjectIdx = 0) 
   const paper = Dom.newElement('div', [], 'paper')
   const pattern = Dom.newElement('div', [], 'pattern')
   const content = Dom.newElement('div', [], 'content')
+
+  const selectWrapper = Dom.newElement('div', ['select-project-dropdown-wrapper', 'flexbox', 'flex-align-center'])
+  const projectsSelect = Dom.newElement('select', ['select-project-dropdown'])
+  projectsSelect.addEventListener('change', e => {
+    let newProjectIdx = e.target.options[e.target.selectedIndex].value
+    paper.remove()
+    paintTasksPage(projectList, newProjectIdx)
+  })
+  projectList.forEach((project, i) => {
+    let projectOption = Dom.newElement('option', [], '', project.name)
+    projectOption.value = i
+    projectOption.selected = i == currentProjectIdx
+    projectsSelect.appendChild(projectOption)
+  })
+  const expandArrow = Dom.newElement('div', ['flexbox', 'select-project-expand-arrow'])
+  expandArrow.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m10 13.062-5-5L6.062 7 10 10.938 13.938 7 15 8.062Z"/></svg>
+  `
+
+  Dom.addChildrenTo(selectWrapper, [projectsSelect, expandArrow])
+  content.appendChild(selectWrapper)
 
   const heading = Dom.newElement('h1', ['project-name'], '', projectList[currentProjectIdx].name)
 
