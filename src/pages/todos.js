@@ -1,7 +1,8 @@
-  import Dom from '../dom_controller'
+import Dom from '../dom_controller'
 import paintNewTodoPage from './new_todo'
 import paintTodoDetailsPage from './todo'
 import { ProjectService } from '../project'
+import painCreateProjectPage from './new_project'
 
 export default function paintTasksPage(projectList = [], currentProjectIdx = 0) {
   const todoObjs = ProjectService.todoObjsFor(projectList[currentProjectIdx])
@@ -27,6 +28,17 @@ export default function paintTasksPage(projectList = [], currentProjectIdx = 0) 
     })
 
     content.appendChild(deleteProjectBtn)
+  } else {
+    const createProjectBtn = Dom.newElement('button', ['create-project-btn'])
+    createProjectBtn.innerHTML = `
+      <svg fill="rgba(255, 0, 0, 0.6)" xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M11 19v-6H5v-2h6V5h2v6h6v2h-6v6Z"/></svg>
+    `
+    createProjectBtn.setAttribute('aria-label', 'Create project')
+    createProjectBtn.addEventListener('click', () => {
+      paper.remove()
+      painCreateProjectPage(projectList)
+    })
+    content.appendChild(createProjectBtn)
   }
 
   const selectWrapper = Dom.newElement('div', ['select-project-dropdown-wrapper', 'flexbox', 'flex-align-center'])

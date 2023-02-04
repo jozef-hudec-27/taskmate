@@ -108,7 +108,7 @@ label, legend {
     }
 }
 
-.add-todo-form {
+.add-todo-form, .create-project-form {
     input[type="text"], textarea {
         outline-color: teal;
         outline-width: 1px;
@@ -192,7 +192,7 @@ label, legend {
     }
 }
 
-.delete-project-btn {
+.delete-project-btn, .create-project-btn {
     position: absolute;
     left: 8px;
     top: 8px;
