@@ -57,10 +57,11 @@ export default function(existingTodoList = [], existingProjectList = []) {
     })
 
     let newTodo = new Todo(title, description, new Date(date), { Low: 1, Medium: 2, High: 3 }[priority])
-    existingTodoList.push(newTodo)
     
     let defaultProject = existingProjectList[0]
-    new TodoProjectAssociation(newTodo, defaultProject)
+    let newTodoProjectAssociation = new TodoProjectAssociation(newTodo, defaultProject)
+
+    existingTodoList.push({ todo: newTodo, association: newTodoProjectAssociation })
 
     document.getElementById('paper').remove()
     paintTasksPage(existingTodoList, existingProjectList)

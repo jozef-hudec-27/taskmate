@@ -9,8 +9,8 @@ const todos = []
 const todoTitles = ['Buy Milk', 'Tidy my room', 'Visit grandma']
 todoTitles.forEach(title => {
   let todo = new Todo(title, title + ' description')
-  new TodoProjectAssociation(defaultProject)
-  todos.push(todo)
+  let todoProjectAssociation = new TodoProjectAssociation(todo, defaultProject)
+  todos.push({ todo, association: todoProjectAssociation })
 })
 
 const projects = [defaultProject]

@@ -10,15 +10,15 @@ export default function paintTasksPage(todoList = [], projectList = []) {
   const heading = Dom.newElement('h1', ['project-name'], '', 'My Tasks')
 
   const todoElements = []
-  todoList.forEach((todo, i) => {
-    let todoElement = Dom.newElement('li', ['todo', `priority-${todo.priority}`], '')
-    todoElement.innerHTML = `<a href="">${todo.title}</a>`
-    todoElement.setAttribute('aria-label', `${{ 1: 'Low', 2: 'Medium', 3: 'High'}[todo.priority]} priority todo`)
+  todoList.forEach(todoObj => {
+    let todoElement = Dom.newElement('li', ['todo', `priority-${todoObj.todo.priority}`], '')
+    todoElement.innerHTML = `<a href="">${todoObj.todo.title}</a>`
+    todoElement.setAttribute('aria-label', `${{ 1: 'Low', 2: 'Medium', 3: 'High'}[todoObj.todo.priority]} priority todo`)
     todoElement.firstChild.addEventListener('click', e => {
       e.preventDefault()
 
       paper.remove()
-      paintTodoDetailsPage(todo, todoList, projectList)
+      paintTodoDetailsPage(todoObj, todoList, projectList)
     })
     todoElements.push(todoElement)
   })
