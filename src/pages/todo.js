@@ -6,9 +6,7 @@ import { TodoService } from '../todo';
 export default function(todoObj, existingProjectList, currentProjectIdx) {
   const todo = todoObj.todo, projectAssociation = todoObj.association
 
-  const paper = Dom.newElement('div', [], 'paper')
-  const pattern = Dom.newElement('div', [], 'pattern')
-  const content = Dom.newElement('div', [], 'content')
+  const [paper, pattern, content] = Dom.starterPageTemplate()
 
   const ddw = new Date() > todo.dueDate ? 'ago' : 'left'
   const todoDueDateHeading = Dom.newElement('h5', [], '', `Due date: ${dateFns.format(todo.dueDate, 'MMMM d yyyy')} (${TodoService.timeLeftFor(todo)} ${ddw})`)

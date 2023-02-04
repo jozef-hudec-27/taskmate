@@ -29,4 +29,12 @@ export default class {
 
     return line
   }
+
+  static starterPageTemplate() {
+    const paper = this.newElement('div', [], 'paper')
+    const pattern = this.newElement('div', [], 'pattern')
+    const content = this.newElement('div', [], 'content')
+
+    return [paper, pattern, content]
+  }
 }

@@ -3,9 +3,7 @@ import paintTasksPage, { backBtn } from './todos'
 import { Project } from '../project'
 
 export default function(projectList) {
-  const paper = Dom.newElement('div', [], 'paper')
-  const pattern = Dom.newElement('div', [], 'pattern')
-  const content = Dom.newElement('div', [], 'content')
+  const [paper, pattern, content] = Dom.starterPageTemplate()
 
   const heading = Dom.newElement('h1', [], '', 'Create project')
 
@@ -20,7 +18,7 @@ export default function(projectList) {
     e.preventDefault()
 
     const name = projectNameInput.value
-    const newProject = new Project(name)
+    const newProject = new Project(name === '' ? 'My Project' : name)
     
     paper.remove()
     paintTasksPage([ ...projectList, newProject ], projectList.length)

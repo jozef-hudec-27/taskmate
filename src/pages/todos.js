@@ -7,9 +7,7 @@ import painCreateProjectPage from './new_project'
 export default function paintTasksPage(projectList = [], currentProjectIdx = 0) {
   const todoObjs = ProjectService.todoObjsFor(projectList[currentProjectIdx])
 
-  const paper = Dom.newElement('div', [], 'paper')
-  const pattern = Dom.newElement('div', [], 'pattern')
-  const content = Dom.newElement('div', [], 'content')
+  const [paper, pattern, content] = Dom.starterPageTemplate()
 
   if (!projectList[currentProjectIdx].isDefault) {
     const deleteProjectBtn = Dom.newElement('button', ['delete-project-btn'])
@@ -113,8 +111,8 @@ export default function paintTasksPage(projectList = [], currentProjectIdx = 0) 
     </g>
   </svg>`
   newTodoBtn.addEventListener('click', () => {
-    content.remove()
-    newTodoBtn.remove()
+    paper.remove()
+    // newTodoBtn.remove()
     pattern.appendChild(Dom.newElement('div', [], 'content'))
     paintNewTodoPage(projectList, currentProjectIdx)
   })
