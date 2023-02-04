@@ -30,12 +30,11 @@ export default function(todoObj, existingProjectList, currentProjectIdx) {
   const deleteBtn = Dom.newElement('button', [], '', 'Delete')
   deleteBtn.addEventListener('click', e => {
     e.preventDefault()
-
     projectAssociation.removeAssociation()
     todo.delete()
 
     paper.remove()
-    paintTasksPage(existingProjectList)
+    paintTasksPage(existingProjectList, currentProjectIdx)
   })
 
   paper.appendChild(backBtn(existingProjectList, currentProjectIdx))

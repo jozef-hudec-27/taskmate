@@ -31,7 +31,9 @@ export class DefaultProject extends Project {
   isDefault = true
 
   moveTodosFrom(nonDefaultProject) {
-    nonDefaultProject.todos.forEach(todo => this.addTodo(todo))
+    nonDefaultProject.todos.forEach(todo => {
+      new TodoProjectAssociation(todo, this)
+    })
   }
 }
 
