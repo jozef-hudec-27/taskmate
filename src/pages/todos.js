@@ -1,7 +1,8 @@
 import Dom from '../dom_controller'
 import paintNewTodoPage from './new_todo'
+import paintTodoDetailsPage from './todo'
 
-export default function(todoList = [], projectList = []) {
+export default function paintTasksPage(todoList = [], projectList = []) {
   const paper = Dom.newElement('div', [], 'paper')
   const pattern = Dom.newElement('div', [], 'pattern')
   const content = Dom.newElement('div', [], 'content')
@@ -10,18 +11,22 @@ export default function(todoList = [], projectList = []) {
 
   const todoElements = []
   todoList.forEach((todo, i) => {
-    let todoElement = Dom.newElement('li', ['todo', `priority-${todo.priority}`], '', `Task ${i+1}: ${todo.title}`)
+    let todoElement = Dom.newElement('li', ['todo', `priority-${todo.priority}`], '')
+    todoElement.innerHTML = `<a href="">${todo.title}</a>`
     todoElement.setAttribute('aria-label', `${{ 1: 'Low', 2: 'Medium', 3: 'High'}[todo.priority]} priority todo`)
+    todoElement.firstChild.addEventListener('click', e => {
+      e.preventDefault()
+
+      paper.remove()
+      paintTodoDetailsPage(todo, todoList, projectList)
+    })
     todoElements.push(todoElement)
   })
 
-  const emptyLine = Dom.newElement('li')
-  emptyLine.style.color = 'white'
-  
   document.body.appendChild(paper)
   paper.appendChild(pattern)
   pattern.appendChild(content)
-  Dom.addChildrenTo(content, [heading, emptyLine].concat(todoElements))
+  Dom.addChildrenTo(content, [heading, Dom.emptyLine()].concat(todoElements))
 
   const newTodoBtn = Dom.newElement('button', ['new-page-btn'], '')
   newTodoBtn.innerHTML = `
@@ -38,4 +43,17 @@ export default function(todoList = [], projectList = []) {
   })
   
   paper.appendChild(newTodoBtn)
+}
+
+export function backBtn(todos, projects) {
+  const btn = Dom.newElement('button', ['new-page-btn'])
+  btn.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M10 22 0 12 10 2l1.775 1.775L3.55 12l8.225 8.225Z"/>
+    </svg>`
+  btn.addEventListener('click', () => {
+    document.getElementById('paper').remove()
+    paintTasksPage(todos, projects)
+  })
+
+  return btn
 }

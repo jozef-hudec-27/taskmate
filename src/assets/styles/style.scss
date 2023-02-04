@@ -143,6 +143,12 @@ label, legend {
     }
 }
 
+.todo {
+    a {
+        @extend %reset-appearance;
+    }
+}
+
 .todo.priority-1::marker {
     color: rgb(0, 238, 2);
 }

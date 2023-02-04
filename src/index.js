@@ -1,7 +1,7 @@
 import './assets/styles/style.scss'
 import { Todo } from './todo'
 import { Project, TodoProjectAssociation } from './project'
-import paintTasksPage from './pages/tasks'
+import paintTasksPage from './pages/todos'
 
 const defaultProject = new Project('My Todos')
 

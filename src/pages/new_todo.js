@@ -1,7 +1,7 @@
 import Dom from '../dom_controller'
 import { TodoProjectAssociation } from '../project'
 import { Todo } from '../todo'
-import paintTasksPage from './tasks'
+import paintTasksPage, { backBtn } from './todos'
 
 export default function(existingTodoList = [], existingProjectList = []) {
   const content = document.getElementById('content')
@@ -66,19 +66,8 @@ export default function(existingTodoList = [], existingProjectList = []) {
     paintTasksPage(existingTodoList, existingProjectList)
   })
 
-  const backBtn = Dom.newElement('button', ['new-page-btn'])
-  backBtn.innerHTML = `
-    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M10 22 0 12 10 2l1.775 1.775L3.55 12l8.225 8.225Z"/>
-    </svg>`
-  backBtn.addEventListener('click', () => {
-    document.getElementById('paper').remove()
-    paintTasksPage(existingTodoList, existingProjectList)
-  })
-  document.getElementById('paper').appendChild(backBtn)
-  
-  const emptyLine = Dom.newElement('li')
-  emptyLine.style.color = 'white'
+  document.getElementById('paper').appendChild(backBtn(existingTodoList, existingProjectList))
   
   Dom.addChildrenTo(todoForm, [todoTitleLabel, todoDescriptionLabel, todoDueDateLabel, submitBtn])
-  Dom.addChildrenTo(content, [heading, emptyLine, todoForm])
+  Dom.addChildrenTo(content, [heading, Dom.emptyLine(), todoForm])
 }

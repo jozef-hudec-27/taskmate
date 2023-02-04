@@ -22,4 +22,11 @@ export default class {
   static addChildrenTo(element, children) {
     children.forEach(child => element.appendChild(child))
   }
+
+  static emptyLine() {
+    const line = this.newElement('li')
+    line.style.color = 'white'
+
+    return line
+  }
 }
