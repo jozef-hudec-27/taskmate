@@ -104,6 +104,7 @@ export default function paintTasksPage(projectList = [], currentProjectIdx = 0) 
   Dom.addChildrenTo(content, [heading, Dom.emptyLine()].concat(todoElements))
 
   const newTodoBtn = Dom.newElement('button', ['new-page-btn'], '')
+  newTodoBtn.setAttribute('aria-label', 'Create todo')
   newTodoBtn.innerHTML = `
   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
     <g id="surface1">
@@ -112,7 +113,6 @@ export default function paintTasksPage(projectList = [], currentProjectIdx = 0) 
   </svg>`
   newTodoBtn.addEventListener('click', () => {
     paper.remove()
-    // newTodoBtn.remove()
     pattern.appendChild(Dom.newElement('div', [], 'content'))
     paintNewTodoPage(projectList, currentProjectIdx)
   })
@@ -122,6 +122,7 @@ export default function paintTasksPage(projectList = [], currentProjectIdx = 0) 
 
 export function backBtn(projects, currentProjectIdx) {
   const btn = Dom.newElement('button', ['new-page-btn'])
+  btn.setAttribute('aria-label', 'Go back')
   btn.innerHTML = `
     <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M10 22 0 12 10 2l1.775 1.775L3.55 12l8.225 8.225Z"/>
     </svg>`
