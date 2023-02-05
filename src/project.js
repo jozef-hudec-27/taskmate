@@ -1,3 +1,5 @@
+import { Todo } from "./todo"
+
 export class Project {
   todos = []
 
@@ -46,6 +48,23 @@ export class ProjectService {
     })
 
     return todoObjs
+  }
+
+  static instancesFrom(objArray) {
+    let instances = []
+
+    for (let project of objArray) {
+      let projectInstance = project.isDefault ? new DefaultProject(project.name) : new Project(project.name)
+  
+      for (let todo of project.todos) {
+        let todoInstance = new Todo(todo.title, todo.description, new Date(todo.dueDate), todo.priority)
+        new TodoProjectAssociation(todoInstance, projectInstance)
+      }
+  
+      instances.push(projectInstance)
+    }
+
+    return instances
   }
 }
 
