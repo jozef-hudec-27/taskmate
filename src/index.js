@@ -23,8 +23,8 @@ if (LocalStorage.isPresent('projects')) {
   })
   
   const secondProjectTodo = new Todo('Mow the lawn', 'Lorem Ipsum dolor sit amet.', new Date(), 3)
-  secondProjectTodo.toggleFinished()
   new TodoProjectAssociation(secondProjectTodo, secondProject)
+  secondProjectTodo.toggleFinished()
 
   projects = [defaultProject, secondProject]
 }

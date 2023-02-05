@@ -2,6 +2,7 @@ import Dom from '../dom_controller'
 import paintTasksPage, { backBtn } from './todos'
 import * as dateFns from 'date-fns';
 import { TodoService } from '../todo';
+import { LocalStorageTodoService } from '../local_storage';
 
 export default function(todoObj, existingProjectList, currentProjectIdx) {
   const todo = todoObj.todo, projectAssociation = todoObj.association
@@ -22,6 +23,7 @@ export default function(todoObj, existingProjectList, currentProjectIdx) {
     e.preventDefault()
 
     let newTodoDesc = todoDescArea.value
+    LocalStorageTodoService.updateDescriptionFor(todo, newTodoDesc)
     todo.description = newTodoDesc
   })
 

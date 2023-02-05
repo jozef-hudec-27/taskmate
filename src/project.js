@@ -4,9 +4,10 @@ import { LocalStorageProjectService } from './local_storage'
 export class Project {
   todos = []
 
-  constructor(name, isDefault = false) {
+  constructor(name, isDefault = false, id = ProjectService.randomId()) {
     this.name = name
     this.isDefault = isDefault
+    this.id = id
 
     LocalStorageProjectService.addNewProject(this)
   }
@@ -37,8 +38,6 @@ export class Project {
   }
 
   moveTodosFrom(otherProject) {
-    LocalStorageProjectService.moveTodosToDefaultFrom(otherProject)
-
     otherProject.todos.forEach(todo => {
       new TodoProjectAssociation(todo, this)
     })
@@ -63,7 +62,7 @@ export class ProjectService {
       let projectInstance = new Project(project.name, Boolean(project.isDefault))
   
       for (let todo of project.todos) {
-        let todoInstance = new Todo(todo.title, todo.description, new Date(todo.dueDate), todo.priority)
+        let todoInstance = new Todo(todo.title, todo.description, new Date(todo.dueDate), todo.priority, todo.isFinished)
         new TodoProjectAssociation(todoInstance, projectInstance)
       }
   
@@ -71,6 +70,10 @@ export class ProjectService {
     }
 
     return instances
+  }
+
+  static randomId() {
+    return Math.floor(Math.random() * 999_999_999) + 1
   }
 }
 
