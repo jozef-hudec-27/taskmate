@@ -1,13 +1,19 @@
 import { Todo } from "./todo"
+import { LocalStorageProjectService } from './local_storage'
 
 export class Project {
   todos = []
 
-  constructor(name) {
+  constructor(name, isDefault = false) {
     this.name = name
+    this.isDefault = isDefault
+
+    LocalStorageProjectService.addNewProject(this)
   }
 
   addTodo(todo) {
+    LocalStorageProjectService.addTodoTo(this, todo)
+
     this.todos.push(todo)
   }
 
@@ -22,18 +28,18 @@ export class Project {
 
   delete() {
     if (!this.isDefault) {
+      LocalStorageProjectService.removeProject(this)
+
       for (let property in this) {
         delete this[property]
       }
     }
   }
-}
 
-export class DefaultProject extends Project {
-  isDefault = true
+  moveTodosFrom(otherProject) {
+    LocalStorageProjectService.moveTodosToDefaultFrom(otherProject)
 
-  moveTodosFrom(nonDefaultProject) {
-    nonDefaultProject.todos.forEach(todo => {
+    otherProject.todos.forEach(todo => {
       new TodoProjectAssociation(todo, this)
     })
   }
@@ -54,7 +60,7 @@ export class ProjectService {
     let instances = []
 
     for (let project of objArray) {
-      let projectInstance = project.isDefault ? new DefaultProject(project.name) : new Project(project.name)
+      let projectInstance = new Project(project.name, Boolean(project.isDefault))
   
       for (let todo of project.todos) {
         let todoInstance = new Todo(todo.title, todo.description, new Date(todo.dueDate), todo.priority)

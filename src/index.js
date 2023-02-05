@@ -1,6 +1,6 @@
 import './assets/styles/style.scss'
 import { Todo } from './todo'
-import { Project, DefaultProject, TodoProjectAssociation, ProjectService } from './project'
+import { Project, TodoProjectAssociation, ProjectService } from './project'
 import paintTasksPage from './pages/todos'
 import Favicon from './assets/images/favicon-32x32.png'
 import Dom from './dom_controller'
@@ -9,9 +9,11 @@ import { LocalStorage } from './local_storage'
 let projects;
 
 if (LocalStorage.isPresent('projects')) {
-  projects = ProjectService.instancesFrom(JSON.parse(LocalStorage.get('projects')))
+  let tmp = LocalStorage.get('projects')
+  LocalStorage.remove('projects')
+  projects = ProjectService.instancesFrom(JSON.parse(tmp))
 } else {
-  const defaultProject = new DefaultProject('My Todos')
+  const defaultProject = new Project('My Todos', true)
   const secondProject = new Project('Second')
   
   const todoTitles = ['Buy Milk', 'Tidy my room', 'Visit grandma']
@@ -25,7 +27,6 @@ if (LocalStorage.isPresent('projects')) {
   new TodoProjectAssociation(secondProjectTodo, secondProject)
 
   projects = [defaultProject, secondProject]
-  LocalStorage.set('projects', JSON.stringify(projects))
 }
 
 paintTasksPage(projects)
